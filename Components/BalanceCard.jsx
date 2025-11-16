@@ -22,9 +22,9 @@ export default BalanceCard
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#60AFFF',
-    height: 120,
+    height: 130,
     width:  369,
-    marginTop: 50,
+    marginTop: 25,
     marginLeft: 10,
     marginLeft: 10,
     borderRadius: 10,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     gap: 168
   },
   balanceHeading: {
-    marginTop: 21
+    marginTop: 24
   },
   balance: {
     fontSize: 32
