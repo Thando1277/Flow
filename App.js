@@ -9,6 +9,7 @@ import LogInScreen from './Screens/LogInScreen';
 import ReportsScreen from './Screens/ReportsScreen';
 import TransactionScreen from './Screens/TransactionScreen';
 import SettingsScreen from './Screens/SettingsScreen';
+import AddTransactionScreen from './Screens/AddTransactionScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ export default function App() {
         <Stack.Screen name='TransactionScreen' component={TransactionScreen}/>
         <Stack.Screen name='ReportsScreen' component={ReportsScreen}/>
         <Stack.Screen name='SettingsScreen' component={SettingsScreen}/>
+        <Stack.Screen name='AddTransactionScreen' component={AddTransactionScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

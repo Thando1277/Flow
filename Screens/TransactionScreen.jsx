@@ -4,10 +4,13 @@ import BottomNavigation from '../Components/BottomNavigation';
 import TransactionIncome from '../Components/TransactionIncome';
 import TransactionExpenses from '../Components/TransactionExpenses';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const TransactionScreen = () => {
   const [selected, setSelected] = useState('Income');
   const slideAnim = useRef(new Animated.Value(0)).current;
+
+  const navigation = useNavigation();
 
   const toggle = (type) => {
     setSelected(type);
@@ -54,7 +57,7 @@ const TransactionScreen = () => {
       </View>
       {displaySelectedCard()}
       <BottomNavigation />
-      <TouchableOpacity style={styles.addTransaction}>
+      <TouchableOpacity style={styles.addTransaction} onPress={() => navigation.navigate('AddTransactionScreen')}>
         <Ionicons name='add' size={40} color='white'/>
       </TouchableOpacity>
     </View>
