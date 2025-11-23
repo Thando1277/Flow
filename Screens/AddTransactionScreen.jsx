@@ -14,6 +14,7 @@ const AddTransactionScreen = () => {
     const [Catopen, setCatOpen] = useState(false);
     const [Catvalue, setCatValue] = useState('');
     const [Catitems, setCatItems] = useState([
+        {label: '+ Add Category', value: 'addYourOwnCategory'},
         {label: 'Salary', value: 'salary'},
         {label: 'Savings', value: 'savings'},
         {label: 'Gift', value: 'gift'},
@@ -21,7 +22,6 @@ const AddTransactionScreen = () => {
         {label: 'Electricity', value: 'electricity'},
         {label: 'Water', value: 'water'},
         {label: 'Entertainment', value: 'entertainment'},
-        {label: '+ Add Category', value: 'addYourOwnCategory'},
     ]);
 
     const [typeOpen, setTypeOpen] = useState(false);
@@ -51,6 +51,15 @@ const AddTransactionScreen = () => {
     const handleAddCategory = () => {
         if(Catvalue == 'addYourOwnCategory'){
             setModalVisible(true);
+            if(newCategory.trim() !== ''){
+                setCatItems((prev) => [
+                    ...prev,
+                    {label: newCategory, value: newCategory.toLowerCase()}
+                ]
+            )
+                Alert.alert('New Category Added',`${newCategory} has been added to your Categories`);
+                setNewCategory('');
+            }
         }
     }
 
@@ -135,8 +144,10 @@ const AddTransactionScreen = () => {
                         <TextInput
                             plalceholder='Category name'
                             style={styles.catInput}
+                            value={newCategory}
+                            onChangeText={(text) => setNewCategory(text)}
                         />
-                        <TouchableOpacity style={styles.addCatBtn}>
+                        <TouchableOpacity style={styles.addCatBtn} onPress={handleAddCategory}>
                             <Text>Add Category</Text>
                         </TouchableOpacity>
                     </View>
