@@ -36,7 +36,7 @@ const LogInScreen = () => {
                 value={password}
                 onChangeText={(text) => setPassword(text)}
             />
-            <TouchableOpacity style={styles.logInBtn} onPress={handleLogIn}>
+            <TouchableOpacity style={styles.logInBtn} onPress={() => navigation.navigate('HomeScreen')}>
                 <Text>Log In</Text>
             </TouchableOpacity>
         <Text>Don't have an account?</Text>
