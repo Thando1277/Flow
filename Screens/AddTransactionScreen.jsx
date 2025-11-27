@@ -49,22 +49,24 @@ const AddTransactionScreen = () => {
     };
 
     const handleAddCategory = () => {
-        if(Catvalue == 'addYourOwnCategory'){
-            setModalVisible(true);
-            if(newCategory.trim() !== ''){
-                setCatItems((prev) => [
-                    ...prev,
-                    {label: newCategory, value: newCategory.toLowerCase()}
-                ]
-            )
-                Alert.alert('New Category Added',`${newCategory} has been added to your Categories`);
-                setNewCategory('');
-            }
-        }
+        if (newCategory.trim() === '') return;
+
+        setCatItems((prev) => [
+            ...prev,
+            { label: newCategory, value: newCategory.toLowerCase() }
+        ]);
+
+        Alert.alert("Success", `${newCategory} added to your categories`);
+        setNewCategory('');
+        setModalVisible(false);
+    };
+
+    const addTransaction = () => {
+        Alert.alert('Saved');
     }
 
     return (
-        <KeyboardAvoidingView 
+        <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === "ios" ? "padding" : undefined}
             keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
@@ -73,9 +75,9 @@ const AddTransactionScreen = () => {
                 style={styles.container}
                 contentContainerStyle={styles.scrollContent}
                 keyboardShouldPersistTaps="handled"
-                nestedScrollEnabled={true}
+                nestedScrollEnabled
             >
-                {/* DATE PICKER */}
+
                 {showPicker && (
                     <DateTimePicker
                         value={date}
@@ -109,7 +111,6 @@ const AddTransactionScreen = () => {
                     </View>
                 )}
 
-                {/* DATE INPUT */}
                 {!showPicker && (
                     <View style={styles.fieldContainer}>
                         <Text style={styles.label}>Date</Text>
@@ -121,7 +122,6 @@ const AddTransactionScreen = () => {
                                     style={styles.input}
                                     editable={false}
                                     value={transactionDate}
-                                    pointerEvents="none"
                                 />
                             </View>
                         </TouchableOpacity>
@@ -129,29 +129,36 @@ const AddTransactionScreen = () => {
                 )}
 
                 <Modal
-                    animationType='slide'
-                    transparent={true}
+                    animationType="fade"
+                    transparent
                     visible={modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert('Alert has been closed');
-                        setModalVisible(!modalVisible);
-                    }}
+                    onRequestClose={() => setModalVisible(false)}
                 >
-                    <View style={styles.modalContainer}>
-                        <TouchableOpacity style={styles.closeContainer} onPress={() => setModalVisible(false)}>
-                            <Ionicons name='close' size={20}/>
-                        </TouchableOpacity>
-                        <TextInput
-                            plalceholder='Category name'
-                            style={styles.catInput}
-                            value={newCategory}
-                            onChangeText={(text) => setNewCategory(text)}
-                        />
-                        <TouchableOpacity style={styles.addCatBtn} onPress={handleAddCategory}>
-                            <Text>Add Category</Text>
-                        </TouchableOpacity>
+                    <View style={styles.modalOverlay}>
+                        <View style={styles.modalBox}>
+                            
+                            {/* Close */}
+                            <TouchableOpacity style={styles.modalCloseBtn} onPress={() => setModalVisible(false)}>
+                                <Ionicons name="close" size={22} color="#333" />
+                            </TouchableOpacity>
+
+                            <Text style={styles.modalTitle}>Add New Category</Text>
+
+                            <TextInput
+                                placeholder="Category name"
+                                style={styles.modalInput}
+                                value={newCategory}
+                                onChangeText={setNewCategory}
+                            />
+
+                            <TouchableOpacity style={styles.modalAddBtn} onPress={handleAddCategory}>
+                                <Text style={styles.modalAddBtnText}>Add Category</Text>
+                            </TouchableOpacity>
+
+                        </View>
                     </View>
                 </Modal>
+                {/* ================================= */}
 
                 {/* AMOUNT */}
                 <View style={styles.fieldContainer}>
@@ -166,12 +173,8 @@ const AddTransactionScreen = () => {
                     </View>
                 </View>
 
-                {/* CATEGORY DROPDOWN */}
-                <View style={[
-                    styles.fieldContainer, 
-                    styles.dropdownWrapper, 
-                    { zIndex: 3000, marginBottom: Catopen ? 180 : 20 }
-                ]}>
+                {/* CATEGORY */}
+                <View style={[styles.fieldContainer, { zIndex: 3000, marginBottom: Catopen ? 180 : 20 }]}>
                     <Text style={styles.label}>Category</Text>
                     <DropDownPicker
                         open={Catopen}
@@ -184,25 +187,19 @@ const AddTransactionScreen = () => {
                         style={styles.dropdown}
                         dropDownContainerStyle={styles.dropdownList}
                         listMode="SCROLLVIEW"
-                        scrollViewProps={{
-                            nestedScrollEnabled: true,
-                        }}
+                        scrollViewProps={{ nestedScrollEnabled: true }}
                         zIndex={3000}
                         zIndexInverse={1000}
-                        onChangeValue={() => {
-                            if(Catvalue === 'addYourOwnCategory'){
+                        onChangeValue={(value) => {
+                            if (value === 'addYourOwnCategory') {
                                 setModalVisible(true);
                             }
                         }}
                     />
                 </View>
 
-                {/* TYPE DROPDOWN */}
-                <View style={[
-                    styles.fieldContainer, 
-                    styles.dropdownWrapper, 
-                    { zIndex: 2000, marginBottom: typeOpen ? 100 : 20 }
-                ]}>
+                {/* TYPE */}
+                <View style={[styles.fieldContainer, { zIndex: 2000, marginBottom: typeOpen ? 120 : 20 }]}>
                     <Text style={styles.label}>Type</Text>
                     <DropDownPicker
                         open={typeOpen}
@@ -215,9 +212,7 @@ const AddTransactionScreen = () => {
                         style={styles.dropdown}
                         dropDownContainerStyle={styles.dropdownList}
                         listMode="SCROLLVIEW"
-                        scrollViewProps={{
-                            nestedScrollEnabled: true,
-                        }}
+                        scrollViewProps={{ nestedScrollEnabled: true }}
                         zIndex={2000}
                         zIndexInverse={2000}
                     />
@@ -236,7 +231,7 @@ const AddTransactionScreen = () => {
                 </View>
 
                 {/* SAVE BUTTON */}
-                <TouchableOpacity style={styles.saveBtn}>
+                <TouchableOpacity style={styles.saveBtn} onPress={addTransaction}>
                     <Text style={styles.saveTxt}>Save</Text>
                 </TouchableOpacity>
 
@@ -256,7 +251,6 @@ const styles = StyleSheet.create({
     scrollContent: {
         padding: 20,
         paddingBottom: 40,
-        flexGrow: 1,
     },
 
     fieldContainer: {
@@ -296,14 +290,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#d0d0d0',
         borderRadius: 10,
-        paddingHorizontal: 12,
-        paddingVertical: 12,
-        minHeight: 50,
+        padding: 12,
+        minHeight: 60,
         fontSize: 15,
-    },
-
-    dropdownWrapper: {
-        // Base styles only - dynamic marginBottom applied inline
     },
 
     dropdown: {
@@ -334,12 +323,6 @@ const styles = StyleSheet.create({
         color: 'white',
     },
 
-    btnText: {
-        color: 'white',
-        fontWeight: '600',
-        fontSize: 16,
-    },
-
     picker: {
         height: 120,
     },
@@ -355,51 +338,85 @@ const styles = StyleSheet.create({
         backgroundColor: '#60AFFF',
         borderRadius: 10,
         height: 40,
-        width: 100,
+        width: 120,
         justifyContent: 'center',
         alignItems: 'center',
     },
+
     cancelBtn: {
-        backgroundColor: '#83888d9f',
+        backgroundColor: '#8d8d8d',
         borderRadius: 10,
         height: 40,
-        width: 100,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    modalContainer: {
+        width: 120,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#a3a3a32f',
-        borderRadius: 10,
+    },
+
+    btnText: {
+        color: 'white',
+        fontWeight: '600',
+    },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.45)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 25,
+    },
+
+    modalBox: {
+        width: '100%',
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 25,
+        alignItems: 'center',
+
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.15,
+        shadowRadius: 10,
+        elevation: 10,
+        position: 'relative',
+    },
+
+    modalCloseBtn: {
         position: 'absolute',
-        left: 75,
-        top: 300,
-        padding: 25
+        top: 12,
+        right: 12,
+        padding: 4,
     },
-    addCatBtn: {
-        backgroundColor: '#60afff93',
-        width: 100,
-        height: 35,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        marginTop: 10
+
+    modalTitle: {
+        fontSize: 18,
+        fontWeight: '600',
+        marginBottom: 15,
+        color: '#333',
     },
-    catInput: {
+
+    modalInput: {
+        width: '100%',
+        height: 45,
         borderWidth: 1,
-        width: 200,
-        height: 40,
-        borderColor: 'gray',
+        borderColor: '#c8c8c8',
         borderRadius: 10,
-        marginBottom: 5,
-        padding: 5,
-        backgroundColor: 'white'
+        paddingHorizontal: 12,
+        fontSize: 15,
+        backgroundColor: '#fafafa',
+        marginBottom: 15,
     },
-    closeContainer: {
-        position: 'absolute',
-        top: 1,
-        right: 2,
-        margin: 5
-    }
+
+    modalAddBtn: {
+        backgroundColor: '#60AFFF',
+        width: '100%',
+        height: 45,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    modalAddBtnText: {
+        color: 'white',
+        fontWeight: '600',
+        fontSize: 16,
+    },
 });
