@@ -23,12 +23,16 @@ const LogInScreen = () => {
     const [password, setPassword] = useState('');
 
     const handleLogIn = async () => {
-        try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            Alert.alert('Logged in');
-            navigation.replace('HomeScreen');
-        } catch (error) {
-            console.error(error.message);
+        if (email.trim() == "" || password.trim() == ""){
+            Alert.alert('Log in Failed', 'Fill all missing fields');
+        }else {
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                Alert.alert('Logged in');
+                navigation.replace('HomeScreen');
+            } catch (error) {
+                Alert.alert("Something went wrong", "Email or Password might be wrong, Try again!")
+            }
         }
     };
 
@@ -97,6 +101,13 @@ const LogInScreen = () => {
                                 <FontAwesome5 name="facebook" size={35} color="blue" />
                             </TouchableOpacity>
                         </View>
+
+                        <View style={{alignItems: 'center', flexDirection: 'row', gap: 5, marginTop: 12}}>
+                            <Text>Don't have an account</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                                <Text style={{textDecorationLine: 'underline', color: '#123db3b3'}}>Sign Up</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </ScrollView>
@@ -117,7 +128,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 36,
         color: '#43a0fdff',
-        marginBottom: 20
+        marginBottom: 100
     },
     formContainer: {
         backgroundColor: 'white',

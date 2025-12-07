@@ -17,10 +17,18 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name='SignUp' component={SignUp}/>
+        <Stack.Screen name='SignUp' component={SignUp}
+          options={{headerShown: false}}
+        />
         <Stack.Screen name='HomeScreen' component={HomeScreen}/>
-        <Stack.Screen name='LogInScreen' component={LogInScreen}/>
-        <Stack.Screen name='TransactionScreen' component={TransactionScreen}/>
+        <Stack.Screen name='LogInScreen' component={LogInScreen} options={{
+          headerShown: false,
+        }}/>
+        <Stack.Screen name='TransactionScreen' component={TransactionScreen}
+          options={{
+            headerShown: false
+          }}
+        />
         <Stack.Screen name='ReportsScreen' component={ReportsScreen}/>
         <Stack.Screen name='SettingsScreen' component={SettingsScreen}/>
         <Stack.Screen name='AddTransactionScreen' component={AddTransactionScreen}/>
@@ -36,4 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logInNav: {
+    backgroundColor: 'blue'
+  }
 });
