@@ -29,7 +29,7 @@ const LogInScreen = () => {
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 Alert.alert('Logged in');
-                navigation.replace('HomeScreen');
+                // navigation.replace('HomeScreen');
             } catch (error) {
                 Alert.alert("Something went wrong", "Email or Password might be wrong, Try again!")
             }
