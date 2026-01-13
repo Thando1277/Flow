@@ -103,16 +103,22 @@ const AddTransactionScreen = () => {
             const userSnap = await getDoc(userRef);
 
             let currentBalance = userSnap.data().balance;
+            let currentMonthlyIncome = userSnap.data().monthlyIncome;
+            let currentMonthlyExpenses = userSnap.data().monthlyExpenses;
 
             if(userSnap.exists()){
                 if (typeValue == 'income'){
                     currentBalance += amount
+                    currentMonthlyIncome += amount
                 }else{
                     currentBalance -= amount
+                    currentMonthlyExpenses += amount
                 }
             }
             await updateDoc(userRef, {
-                balance: parseFloat(currentBalance)
+                balance: parseFloat(currentBalance),
+                monthlyIncome: parseFloat(currentMonthlyIncome),
+                monthlyExpenses: parseFloat(currentMonthlyExpenses)
             })
         }
     }

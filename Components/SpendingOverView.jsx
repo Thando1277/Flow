@@ -1,19 +1,39 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import {useState, useEffect} from 'react'
+import { doc, onSnapshot} from 'firebase/firestore'
+import { auth, db} from '../Firebase/FirebaseConfig'
 
 const SpendingOverView = () => {
+    const [monthlyIncome, setMonthlyIncome] = useState("");
+    const [monthlyExpenses, setMonthlyExpenses] = useState("");
+
+    const user = auth.currentUser;
+
+    useEffect(() => {
+        if(!user) return;
+
+        const userRef = doc(db, 'users', user.uid);
+        const unsubscribe = onSnapshot(userRef, (docSnap) => {
+            if(docSnap.exists()){
+                setMonthlyIncome(docSnap.data().monthlyIncome)
+                setMonthlyExpenses(docSnap.data().monthlyExpenses)
+            }
+        });
+        return () => unsubscribe();
+    }, [user]);
+    
   return (
     <View style={styles.container}>
         <View style={styles.incomeBox}>
             <Text style={styles.Headingtext}>Monthly Income</Text>
             <View style={styles.amount}>
-                <Text style={styles.textAmount}>R5 600</Text>
+                <Text style={styles.textAmount}>R{monthlyIncome}</Text>
             </View>
         </View>
         <View style={styles.expenseBox}>
             <Text style={styles.Headingtext}>Monthly Expenses</Text>
             <View style={styles.amount}>
-                <Text style={styles.textAmount}>R3 450</Text>
+                <Text style={styles.textAmount}>R{monthlyExpenses}</Text>
             </View>
         </View>
     </View>
