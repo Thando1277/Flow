@@ -14,6 +14,7 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [avatar, setAvatar] = useState(null);
+    const [balance, seBalance] = useState("");
 
     const handleSignUp = async () => {
         if(fullname.trim() === '' || email.trim() === '' || password.trim() === '' || confirmPassword.trim() === ''){
@@ -30,7 +31,8 @@ const SignUp = () => {
                     fullname: fullname,
                     email: email,
                     createdAt: Timestamp.fromDate(new Date()),
-                    avatar: avatar
+                    avatar: avatar,
+                    balance: parseFloat(balance) || 0
                 });
                 Alert.alert('Account Created successfully');
                 navigation.navigate('HomeScreen');

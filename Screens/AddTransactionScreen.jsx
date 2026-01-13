@@ -3,6 +3,9 @@ import { useState } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { Ionicons } from '@expo/vector-icons'
+import { doc, setDoc, updateDoc, getDoc, Timestamp } from 'firebase/firestore'
+import { db } from '../Firebase/FirebaseConfig';
+import { getAuth } from 'firebase/auth'
 
 const AddTransactionScreen = () => {
     const [showPicker, setShowPicker] = useState(false);
@@ -10,6 +13,9 @@ const AddTransactionScreen = () => {
     const [transactionDate, setTransactionDate] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const [newCategory, setNewCategory] = useState('');
+
+    const [amount, setAmount] = useState("");
+    const [notes, setNotes] = useState("");
     
     const [Catopen, setCatOpen] = useState(false);
     const [Catvalue, setCatValue] = useState('');
@@ -61,8 +67,54 @@ const AddTransactionScreen = () => {
         setModalVisible(false);
     };
 
-    const addTransaction = () => {
-        Alert.alert('Saved');
+    const addTransaction = async () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        const transactionRef = doc(db, 'transactions', user.uid + "_" + new Date().getTime());
+
+        if(transactionDate.trim() === "" || amount.trim() === "" || Catvalue.trim() ==="" || typeValue.trim() === ""){
+            Alert.alert("Fill all missing input fields");
+            return;
+        }else {
+            try{
+                await setDoc(transactionRef, {
+                    UserID: user.uid,
+                    Date: transactionDate,
+                    Amount: parseFloat(amount) || 0,
+                    Category: Catvalue,
+                    Type: typeValue,
+                    Notes: notes,
+                    CreatedAt: Timestamp.fromDate(new Date())
+
+                })
+                Alert.alert('Transaction Added.');
+                setTransactionDate("");
+                setAmount("");
+                setCatValue("");
+                setTypeValue("");
+                setNotes("");
+            }catch (error){
+                Alert.alert('Something went wrong', error.message);
+            }
+
+            //update balance
+            const userRef = doc(db, 'users', user.uid);
+            const userSnap = await getDoc(userRef);
+
+            let currentBalance = userSnap.data().balance;
+
+            if(userSnap.exists()){
+                if (typeValue == 'income'){
+                    currentBalance += amount
+                }else{
+                    currentBalance -= amount
+                }
+            }
+            await updateDoc(userRef, {
+                balance: parseFloat(currentBalance)
+            })
+        }
     }
 
     return (
@@ -169,6 +221,8 @@ const AddTransactionScreen = () => {
                             placeholder="R: "
                             style={styles.input}
                             keyboardType="numeric"
+                            value={amount}
+                            onChangeText={text => setAmount(text)}
                         />
                     </View>
                 </View>
@@ -227,6 +281,8 @@ const AddTransactionScreen = () => {
                         multiline
                         numberOfLines={3}
                         textAlignVertical="top"
+                        value={notes}
+                        onChangeText={(text) => setNotes(text)}
                     />
                 </View>
 

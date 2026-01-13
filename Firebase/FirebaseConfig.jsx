@@ -21,10 +21,8 @@ const firebaseConfig = {
   appId: APP_ID,
 };
 
-// Initialize Firebase app
 const app = initializeApp(firebaseConfig);
 
-// 🔥 FIX: Required for Expo login persistence
 const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage)
 });

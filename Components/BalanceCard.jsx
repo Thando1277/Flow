@@ -1,7 +1,25 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { useEffect, useState } from 'react';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { auth, db } from '../Firebase/FirebaseConfig';
 
 const BalanceCard = () => {
+  const [balance, setBalance] = useState(0);
+  const user = auth.currentUser;
+
+  useEffect(() => {
+    if(!user) return;
+
+    const userRef = doc(db, 'users', user.uid);
+    const unsubscribe = onSnapshot(userRef, (docSnap) => {
+      if(docSnap.exists()){
+        setBalance(docSnap.data().balance);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [user]);
+
   return (
     <View style={styles.container}>
       <View style={styles.headings}>
@@ -11,7 +29,7 @@ const BalanceCard = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.balanceHeading}>
-        <Text style={styles.balance}>R3 645, 76</Text>
+        <Text style={styles.balance}>R{balance}</Text>
       </View>
     </View>
   )
