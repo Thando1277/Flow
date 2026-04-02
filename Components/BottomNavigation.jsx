@@ -46,12 +46,12 @@ export default BottomNavigation
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        gap: 50,
+        gap: 40,
         width: '100%',
-        backgroundColor: '#eeebebff',
-        padding: 7,
+        backgroundColor: 'rgb(255, 255, 255)',
+        padding: 10,
         position: 'absolute',
-        top: 667,
+        top: 760,
         height: 86,
         justifyContent: 'center'
     },

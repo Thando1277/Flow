@@ -48,7 +48,7 @@ const HomeScreen = () => {
       </View>
       <ActivityCard/>
       <Text
-        style={{fontWeight: 'bold', fontSize: 18, marginTop: 20, marginLeft: 5}}
+        style={{fontWeight: 'bold', fontSize: 18, marginTop: 35, marginLeft: 5, fontWeight: '600'}}
       >Spending OverView</Text>
       <SpendingOverView/>
     </View>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   userInfo: {
     flexDirection: 'row',
     gap: 6,
-    marginTop: 7,
+    marginTop: 60,
     marginLeft: 8
   },
   userText: {
@@ -86,12 +86,12 @@ const styles = StyleSheet.create({
     marginLeft: 9,
   },
   activityText: {
-    fontWeight: 'bold',
+    fontWeight: '600',
     fontSize: 17
   },
   seeAllText: {
-    fontWeight: 'bold',
-    color: 'blue',
+    fontWeight: '600',
+    color: '#60AFFF',
     fontSize: 17,
   }
 })

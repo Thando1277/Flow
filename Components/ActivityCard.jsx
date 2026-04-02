@@ -1,7 +1,38 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
 
 const ActivityCard = () => {
+    const [notes, setNotes] = useState("");
+    const [amount, setAmount] = useState("");
+    const [description, setDescription] = useState("");
+    const [date, setDate] = useState("");
+
+
+useEffect(() => {
+  const auth = getAuth();
+  const db = getFirestore();
+
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (!user) return;
+
+    const q = query(
+      collection(db, "transactions"),
+      where("UserID", "==", user.uid)
+    );
+
+    return onSnapshot(q, (snapshot) => {
+      const notes = snapshot.docs.map(doc => doc.data().Notes);
+      setNotes(notes);
+    });
+  });
+
+  return unsubscribe;
+}, []);
+
+
+
   return (
     <View style={styles.container}>
 
@@ -17,7 +48,7 @@ const ActivityCard = () => {
 
       <View style={styles.row}>
         <View style={styles.left}>
-          <Text style={styles.note}>Gift from Mom</Text>
+          <Text style={styles.note}>{notes}</Text>
           <Text style={styles.description}>Gift • 13 June</Text>
         </View>
         <Text style={styles.amountPositive}>+ R100</Text>
@@ -41,7 +72,7 @@ export default ActivityCard
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#d3d3d3ff',
+    backgroundColor: 'rgb(255, 255, 255)',
     width: '95%',
     borderRadius: 12,
     paddingVertical: 10,
@@ -64,25 +95,28 @@ const styles = StyleSheet.create({
   note: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#000'
+    color: '#000000',
   },
 
   description: {
     fontSize: 13,
-    color: '#555',
-    marginTop: 2
+    color: '#050505',
+    marginTop: 2,
+    fontWeight: '300'
   },
 
   amountPositive: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#26aa4b'
+    color: '#26aa4b',
+    fontWeight: 250
   },
 
   amountNegative: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#ff0000'
+    color: '#ff0000',
+    fontWeight: '250'
   },
 
   separator: {

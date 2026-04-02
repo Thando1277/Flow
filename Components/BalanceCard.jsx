@@ -40,13 +40,13 @@ export default BalanceCard
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#60AFFF',
-    height: 130,
+    height: 140,
     width:  369,
-    marginTop: 25,
+    marginTop: 40,
     marginLeft: 10,
     marginLeft: 10,
     borderRadius: 10,
-    padding: 5
+    padding: 10
 
   },
   headings: {
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     marginTop: 24
   },
   balance: {
-    fontSize: 32
+    fontSize: 32,
+    fontWeight: '300'
   }
 })
