@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#333',
     letterSpacing: -0.3,
-    marginTop: 70
+    marginTop: 30
   },
   headerSub: {
     fontSize: 13,

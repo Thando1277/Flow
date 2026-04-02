@@ -28,5 +28,6 @@ const styles = StyleSheet.create({
     borderColor: '#d0d0d0',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 15
   },
 })
