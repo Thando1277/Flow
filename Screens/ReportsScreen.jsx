@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import React from 'react'
 import BottomNavigation from '../Components/BottomNavigation'
+import { BarChart, LineChart, PieChart, PopulationPyramid, RadarChart, BubbleChart } from "react-native-gifted-charts";
 
 const ReportsScreen = () => {
+  const data = [ {value:50}, {value:80}, {value:90}, {value:70} ]
   return (
     <View>
       <ScrollView>
@@ -17,6 +19,7 @@ const ReportsScreen = () => {
             >Total Wealth</Text>
             <View style={styles.amountContainer}>
               <Text style={{fontWeight: 'bold', fontSize: 20}}>R12 000</Text>
+              <LineChart data = {data} />
             </View>
           </View>
 
@@ -26,6 +29,7 @@ const ReportsScreen = () => {
             >Monthly Overview</Text>
             <View style={styles.amountContainer}>
               <Text style={{fontWeight: 'bold', fontSize: 20}}>R6 240</Text>
+              <BarChart data = {data} />
             </View>
           </View>
 
