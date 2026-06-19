@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     padding: 3,
     position: "relative",
     marginLeft: 20,
-    marginTop: 30,
+    marginTop: 100,
   },
 
   slider: {
@@ -117,6 +117,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   container: {
-    flex: 1
+    flex: 1,
   }
 });

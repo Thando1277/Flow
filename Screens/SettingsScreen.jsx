@@ -3,6 +3,7 @@ import React from 'react';
 import BottomNavigation from '../Components/BottomNavigation';
 import { getAuth, signOut } from 'firebase/auth';
 
+
 const SettingsScreen = () => {
   const auth = getAuth();
 

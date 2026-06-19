@@ -303,7 +303,7 @@ const AddTransactionScreen = () => {
     );
 };
 
-export default AddTransactionScreen;
+export default AddTransactionScreen
 
 const styles = StyleSheet.create({
     // ── Layout ────────────────────────────────────────────────────────────────

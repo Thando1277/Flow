@@ -45,33 +45,35 @@ export default SpendingOverView
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        gap: 69
+        gap: 20
     },
     incomeBox: {
-        backgroundColor: '#d3d3d3ff',
-        width: 150,
-        height: 100,
+        backgroundColor: 'rgb(255, 255, 255)',
+        width: 180,
+        height: 95,
         borderRadius: 10,
-        marginLeft: 10,
-        marginTop: 30,
-        padding: 5
+        padding: 5,
+        marginLeft: 5,
+        marginTop: 20
     },
     expenseBox: {
-        backgroundColor: '#d3d3d3ff',
-        width: 150,
-        height: 100,
+        backgroundColor: 'rgb(255, 255, 255)',
+        width: 180,
+        height: 95,
         borderRadius: 10,
-        marginTop: 30,
-        padding: 5
+        padding: 5,
+        marginTop: 20
     },
     Headingtext: {
-        fontSize: 11
+        fontSize: 13,
+        marginLeft: 10,
+        color: 'rgb(122, 122, 122)'
     },
     amount: {
-        margin: 20
+        margin: 20,
     },
     textAmount: {
         fontSize: 25,
-        fontWeight: 'bold'
+        fontWeight: '300'
     }
 })
